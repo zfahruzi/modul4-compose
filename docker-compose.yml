@@ -16,7 +16,7 @@ services:
       - db_data:/var/lib/mysql
   # 2. Container Web Server (WordPress)
   web:
-    image: wordpress: latest
+    image: wordpress:latest
     container_name: web_server
     restart: always
     ports: 
