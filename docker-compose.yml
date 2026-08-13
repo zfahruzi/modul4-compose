@@ -1,0 +1,40 @@
+# Menentukan versi syntax Compose (opsional pada versi
+terbaru, namun baik untuk kompatibilitas) version: '3.8'
+services:
+# 1. Container Database
+db:
+  image: mariadb:10.6
+  container_name: database_server
+  restart: always
+  environment:
+# Environment variables untuk inisialisasi awal database
+    MYSQL_ROOT_PASSWORD: passwordrahasia
+    MYSQL_DATABASE: wordpress_db
+    MYSQL_USER: wp_user
+    MYSQL_PASSWORD: wppassword
+  volumes:
+# Menyimpan data tabel DB ke volume agar tidak hilang saat container mati
+    - db_data:/var/lib/mysql
+# 2. Container Web Server (WordPress)
+web:
+  image:wordpress: latest
+  container_name: web_server
+  restart: always
+  ports: 
+# Membuka port 8080 di VPS untuk mengakses web (PortMapping)
+  - "8080:80"
+  environment:
+# Environment variables agar Web tahu cara login ke Database
+  WORDPRESS_DB_HOST: db:3306 # Menggunakan nama service  'db' untuk saling komunikasi
+  WORDPRESS_DB_NAME: wordpress_db
+  WORDPRESS_DB_USER: wp_user
+  WORDPRESS_DB_PASSWORD: wppassword
+  volumes:
+# Menyimpan file unggahan media/plugin WordPress (Bind Mount)
+  - ./wp-content:/var/www/html/wp-content
+  depends_on:
+# Memastikan container 'db' menyala lebih dulu sebelum 'web'
+  - db
+# Deklarasi Volume
+volumees:
+  db_data:
