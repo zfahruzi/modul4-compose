@@ -21,7 +21,7 @@ services:
     restart: always
     ports: 
   # Membuka port 8080 di VPS untuk mengakses web (PortMapping)
-      - "8080:80"
+      - "8083:80"
     environment:
   # Environment variables agar Web tahu cara login ke Database
       WORDPRESS_DB_HOST: db:3306 # Menggunakan nama service  'db' untuk saling komunikasi
