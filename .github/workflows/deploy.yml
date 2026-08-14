@@ -1,9 +1,8 @@
 name: Auto Deploy to VPS Docker
-# Menentukan kapan pipeline ini berjalan
 on:
   push:
     branches:
-      - main # Berjalan hanya ketika ada push ke branch main
+      - main
 
 jobs:
   deploy:
@@ -14,18 +13,12 @@ jobs:
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SERVER_HOST }}
-        username: ${{ secrets.SERVER_USERNAME }}
-        key: ${{ secrets.SERVER_SSH_KEY }}
-        port: 22
-
-  # Skrip otomatisasi yang akan dijalankan di dalam VPS
-        script: |
-
-  # Pergi ke folder proyek (asumsi folder sudah pernah di-clone sebelumnya)
-          cd /root/modul4-compose
-        
-        # Tarik kode terbaru
-          git pull origin main
-          docker build -t
-          docker compose up -d --build
-          docker image prune -f
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: 22
+          script: |
+            cd /root/modul4-compose
+            git pull origin main
+            docker build -t myapp:latest .
+            docker compose up -d --build
+            docker image prune -f
