@@ -1,0 +1,41 @@
+name: Auto Deploy to VPS Docker
+# Menentukan kapan pipeline ini berjalan
+on:
+  push:
+    branches:
+      - main # Berjalan hanya ketika ada push ke branch main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+  steps:
+  - name: Eksekusi Remote SSH ke VPS
+    uses: appleboy/ssh-action@v1.0.3
+    with:
+      host: ${{ secrets.SERVER_HOST }}
+    username: ${{ secrets.SERVER_USERNAME }}
+    key: ${{ secrets.SERVER_SSH_KEY }}
+    port: 80
+
+# Skrip otomatisasi yang akan dijalankan di dalam VPS
+    script: |
+
+# Pergi ke folder proyek (asumsi folder sudah pernah di-clone sebelumnya)
+      cd /root/proyek-web-saya
+
+# Tarik kode terbaru
+        git pull origin main
+
+# Build ulang image Docker dengan tag 'latest'
+        docker build -t aplikasi-web:latest .
+
+# Hentikan dan hapus container lama (abaikan jika belum ada)
+        docker stop web-container || true
+        docker rm web-container || true
+
+# Jalankan container baru dari image yang baru di-build
+        docker run -d -p 8083:80 --name web-container aplikasi-web:latest
+
+# Membersihkan image lama yang tidak terpakai (menghemat disk VPS)
+        docker image prune -f
