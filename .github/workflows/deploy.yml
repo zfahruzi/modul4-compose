@@ -10,16 +10,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Eksekusi Remote SSH ke VPS
-      uses: appleboy/ssh-action@v1.0.3
-      with:
-        host: ${{ secrets.SERVER_HOST }}
-      username: ${{ secrets.SERVER_USERNAME }}
-      key: ${{ secrets.SERVER_SSH_KEY }}
-      port: 22
+      - name: Eksekusi Remote SSH ke VPS
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USERNAME }}
+        key: ${{ secrets.SERVER_SSH_KEY }}
+        port: 22
 
   # Skrip otomatisasi yang akan dijalankan di dalam VPS
-      script: |
+        script: |
 
   # Pergi ke folder proyek (asumsi folder sudah pernah di-clone sebelumnya)
         cd /root/modul4-compose
