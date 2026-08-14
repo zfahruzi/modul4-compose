@@ -22,7 +22,7 @@ jobs:
     script: |
 
 # Pergi ke folder proyek (asumsi folder sudah pernah di-clone sebelumnya)
-      cd /root/web_server
+      cd /root/modul4-compose
 
 # Tarik kode terbaru
         git pull origin main
