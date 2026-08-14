@@ -18,13 +18,13 @@ jobs:
     key: ${{ secrets.SERVER_SSH_KEY }}
     port: 8083
 
-# Skrip otomatisasi yang akan dijalankan di dalam VPS
+  # Skrip otomatisasi yang akan dijalankan di dalam VPS
     script: |
 
-# Pergi ke folder proyek (asumsi folder sudah pernah di-clone sebelumnya)
+  # Pergi ke folder proyek (asumsi folder sudah pernah di-clone sebelumnya)
       cd /root/modul4-compose
 
-# Tarik kode terbaru
+        # Tarik kode terbaru
         git pull origin main
         docker build -t
         docker compose -d --build
